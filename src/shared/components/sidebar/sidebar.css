@@ -1,0 +1,28 @@
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgb(7, 71, 166);
+    color: #fff;
+}
+
+.sidebar__header {
+    padding: 15px;
+}
+
+.sidebar__header-title {
+    font-size: 1.3rem;
+}
+
+.sidebar .nav-link {
+    color: #fff;
+    transition: .3s ease-in-out;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus,
+.sidebar .nav-link:active {
+    color: #fff;
+    background-color: rgb(5, 54, 127);
+}
