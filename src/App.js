@@ -30,13 +30,18 @@ const App = () => {
     return <LoginContainer setUser={setUser} />
   }
 
+  const onLogout = e => {
+    e.preventDefault();
+    setUser(null);
+  }
+
   return (
     <Router>
       <div className="d-flex">
         <Sidebar isOpen={true} />
 
         <div className="content">
-          <Header />
+          <Header onLogout={onLogout}/>
           
           <div className="content__inner">
             <Switch>
