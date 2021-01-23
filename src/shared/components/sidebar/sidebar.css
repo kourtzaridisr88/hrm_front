@@ -1,10 +1,15 @@
 /* SIDEBAR */
 .sidebar {
-    width: 220px;
+    width: 0;
     height: 100vh;
     overflow-y: auto;
     background-color: rgb(7, 71, 166);
     color: #fff;
+    transition: .45s ease-in-out;
+}
+
+.sidebar.sidebar--open {
+    width: 220px;
 }
 
 .sidebar__header {

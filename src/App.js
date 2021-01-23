@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,21 +26,34 @@ const App = () => {
   const [user, setUser] = useState();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  if(!user) {
-    return <LoginContainer setUser={setUser} />
+  useEffect(() => {
+    handleSiderbar();
+
+    window.addEventListener('resize', handleSiderbar);
+  })
+
+  const handleSiderbar = () => {
+    const shouldBeOpen = window.innerWidth > 992;
+    setIsSidebarOpen(shouldBeOpen);
   }
 
   const onLogout = e => {
     e.preventDefault();
     setUser(null);
+    window.localStorage.removeItem('user');
+    window.location.href = '/';
+  }
+
+  if(!user) {
+    return <LoginContainer setUser={setUser} />
   }
 
   return (
     <Router>
       <div className="d-flex">
-        <Sidebar isOpen={true} />
+        <Sidebar isOpen={isSidebarOpen} />
 
-        <div className="content">
+        <div className="content" style={{ width: isSidebarOpen ? 'calc(100% - 220px)' : '100%' }}>
           <Header onLogout={onLogout}/>
           
           <div className="content__inner">

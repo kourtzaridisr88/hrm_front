@@ -30,14 +30,23 @@ const IndexDepartmentsContainer = ({ user }) => {
   }, [])
 
   const onTableChange = async (key ,value) => {
+    setIsLoading(true);
+    let params = {
+      per_page: departments.pagination.per_page,
+      page: key === 'page' ? value : departments.pagination.page,
+      ...query
+    }
 
+    const response = await fetchDepartments(user.token, params);
+    setDepartments(response);
+    setIsLoading(false);
   }
 
   const onFilterApply = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const params = {
+    let params = {
       no_of_employees: event.target.no_of_employees.value || null,
       salaries_from: event.target.salaries_from.value || null,
       salaries_to: event.target.salaries_to.value || null,
@@ -63,7 +72,7 @@ const IndexDepartmentsContainer = ({ user }) => {
           <DataTable>
             <TableHeader 
               isLoading={isLoading} 
-              headers={['Department', 'Biggest Salary', 'Average Salary', 'Total Salaries', 'Employees']} 
+              headers={['Department', 'Biggest Salary', 'Average Salary', 'Total Salaries']} 
             />
 
             <TableBody 
@@ -75,10 +84,7 @@ const IndexDepartmentsContainer = ({ user }) => {
                   </NavLink>,
                   MoneyFormat('EUR').format(department.max_salary),
                   MoneyFormat('EUR').format(department.avg_salaries),
-                  MoneyFormat('EUR').format(department.total_salaries),
-                  <NavLink to={`/employees?department_id=${department.id}`}>
-                    View All
-                  </NavLink>,
+                  MoneyFormat('EUR').format(department.total_salaries)
                 ]
               })} 
             />

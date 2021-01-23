@@ -21,6 +21,7 @@ const EditDepartmentContainer = ({ user }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     const department = {
+      id: id,
       name: event.target.name.value,
     }
 

@@ -15,6 +15,11 @@ import { ToastContainer } from 'react-toastify';
 import { login } from '../services/auth';
 
 const LoginContainer = ({setUser}) => {
+
+  if (window.localStorage.getItem('user')) {
+    setUser(JSON.parse(window.localStorage.getItem('user')));
+  }
+
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -24,8 +29,8 @@ const LoginContainer = ({setUser}) => {
     }
 
     const user = await login(params);
-    console.log(user)
-    setUser(user)
+    window.localStorage.setItem('user', JSON.stringify(user));
+    setUser(user);
   }
 
   return (

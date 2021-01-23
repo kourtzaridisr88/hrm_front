@@ -4,8 +4,8 @@ const Paginator = ({ totalPages, currentPage, onTableChange }) => {
   let items = [];
   for (let i = 1; i <= totalPages; i++) {
     items.push(
-      <PaginationItem active={currentPage === i}>
-        <PaginationLink onCLick={() => onTableChange('page', i)}>
+      <PaginationItem key={i} active={currentPage === i}>
+        <PaginationLink onClick={() => onTableChange('page', i)}>
           { i }
         </PaginationLink>
       </PaginationItem>

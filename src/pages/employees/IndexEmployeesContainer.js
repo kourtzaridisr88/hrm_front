@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink, useHistory } from 'react-router-dom'; 
 import { Container, Row, Col } from 'reactstrap';
 
 import DataTable from '../../shared/components/table/Table';
 import TableHeader from '../../shared/components/table/TableHeader';
 import TableBody from '../../shared/components/table/TableBody';
+import Paginator from '../../shared/components/Paginator';
 import { Link } from 'react-router-dom';
 
 import MoneyFormat from '../../helpers/money_format';
@@ -27,6 +28,18 @@ const IndexEmployeesContainer = ({ user }) => {
         setIsLoading(false);
       })
   }, [])
+
+  const onTableChange = async (key ,value) => {
+    setIsLoading(true);
+    let params = {
+      per_page: employees.pagination.per_page,
+      page: key === 'page' ? value : employees.pagination.page,
+    }
+
+    const response = await fetchEmployees(user.token, params);
+    setEmployees(response);
+    setIsLoading(false);
+  }
   
   return (
     <Container fluid={true}>
@@ -52,6 +65,12 @@ const IndexEmployeesContainer = ({ user }) => {
                   MoneyFormat('EUR').format(employee.salary)
                 ]
               })} 
+            />
+
+            <Paginator 
+              onTableChange={onTableChange} 
+              totalPages={employees.pagination.total_pages}
+              currentPage={employees.pagination.page} 
             />
           </DataTable>
         </Col>
